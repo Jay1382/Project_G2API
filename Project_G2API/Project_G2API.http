@@ -1,0 +1,6 @@
+@Project_G2API_HostAddress = http://localhost:5043
+
+GET {{Project_G2API_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

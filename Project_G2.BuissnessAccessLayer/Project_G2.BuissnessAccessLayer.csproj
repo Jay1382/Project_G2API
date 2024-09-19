@@ -1,0 +1,14 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Project_G2.DataAccessLayer\Project_G2.DataAccessLayer.csproj" />
+    <ProjectReference Include="..\Project_G2.Domain\Project_G2.DomainLayer.csproj" />
+  </ItemGroup>
+
+</Project>
