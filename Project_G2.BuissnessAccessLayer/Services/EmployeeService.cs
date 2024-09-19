@@ -44,14 +44,14 @@ namespace Project_G2.BuissnessAccessLayer.Services
             return await _employeeRepository.GetCityCombo(cityComboRequest);
         }
 
-        public async Task<ResponseModel> GetCountryCombo()
+        public async Task<ResponseModel> GetCountryCombo(CountryComboRequest countryComboRequest)
         {
-            return await _employeeRepository.GetCountryCombo();
+            return await _employeeRepository.GetCountryCombo(countryComboRequest);
         }
 
-        public Task<ResponseModel> GetStateCombo()
+        public async Task<ResponseModel> GetStateCombo(StateComboRequest stateComboRequest)
         {
-            return _employeeRepository.GetStateCombo();
+            return await _employeeRepository.GetStateCombo(stateComboRequest);
         }
     }
 }

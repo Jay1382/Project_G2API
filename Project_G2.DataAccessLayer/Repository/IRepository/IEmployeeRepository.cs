@@ -10,8 +10,8 @@ namespace Project_G2.DataAccessLayer.Repository.IRepository
         Task<ResponseModel> GetEmployee();
         Task<ResponseModel> UpdateEmployee();
         Task<ResponseModel> DeleteEmployee();
-        Task<ResponseModel> GetCountryCombo();
-        Task<ResponseModel> GetStateCombo();
+        Task<ResponseModel> GetCountryCombo(CountryComboRequest countryComboRequest);
+        Task<ResponseModel> GetStateCombo(StateComboRequest stateComboRequest);
         Task<ResponseModel> GetCityCombo(CityComboRequest cityComboRequest);
     }
 }

@@ -6,12 +6,7 @@ using Project_G2.DomainLayer.Model.DTO;
 using Project_G2.DomainLayer.Model.RequestModel;
 using Project_G2.DomainLayer.Model.ResponseModel;
 using Project_G2API.Model.RequestModel;
-using System;
-using System.Collections.Generic;
 using System.Data;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Project_G2.DataAccessLayer.Repository
 {
@@ -131,14 +126,72 @@ namespace Project_G2.DataAccessLayer.Repository
             }
         }
 
-        public async Task<ResponseModel> GetCountryCombo()
+        public async Task<ResponseModel> GetCountryCombo(CountryComboRequest countryComboRequest)
         {
-            throw new NotImplementedException();
+            using (var connection = _context.CreateConnection())
+            {
+                ResponseModel responseModel = new ResponseModel();
+                try
+                {
+                    DynamicParameters parameter = new DynamicParameters();
+                    parameter.Add("@label", countryComboRequest.label);
+                    parameter.Add("@page_size", countryComboRequest.PageSize);
+                    parameter.Add("@current_page", countryComboRequest.CurrentPage);
+                    var result = await connection.QueryMultipleAsync("country_combo_get", parameter, commandType: CommandType.StoredProcedure);
+                    var paginationResponse = result.Read<PaginationResponse>();
+                    var countryResponse = result.Read<CountryComboResponse>();
+                    if (countryResponse.FirstOrDefault() != null)
+                    {
+                        CountryComboDTO countryComboDTO = new CountryComboDTO();
+                        countryComboDTO.paginationResponse = paginationResponse.FirstOrDefault();
+                        countryComboDTO.countryComboResponse = countryResponse.ToList();
+
+                        responseModel.StatusCode = 200;
+                        responseModel.Message = "data get successfully!!";
+                        responseModel.Data = countryComboDTO;
+                    }
+                }
+                catch (Exception ex)
+                {
+                    responseModel.StatusCode = 500;
+                    responseModel.Message = $"Error occurred during GetCountryCombo: {ex.Message}";
+                }
+                return responseModel;
+            }
         }
 
-        public Task<ResponseModel> GetStateCombo()
+        public async Task<ResponseModel> GetStateCombo(StateComboRequest stateComboRequest)
         {
-            throw new NotImplementedException();
+            using (var connection = _context.CreateConnection())
+            {
+                ResponseModel responseModel = new ResponseModel();
+                try
+                {
+                    DynamicParameters parameter = new DynamicParameters();
+                    parameter.Add("@CountryID", stateComboRequest.CountryID);
+                    parameter.Add("@page_size", stateComboRequest.PageSize);
+                    parameter.Add("@current_page", stateComboRequest.CurrentPage);
+                    var result = await connection.QueryMultipleAsync("state_combo_get", parameter, commandType: CommandType.StoredProcedure);
+                    var paginationResponse = result.Read<PaginationResponse>();
+                    var stateResponse = result.Read<StateComboResponse>();
+                    if (stateResponse.FirstOrDefault() != null)
+                    {
+                        StateComboDTO stateComboDTO = new StateComboDTO();
+                        stateComboDTO.paginationResponse = paginationResponse.FirstOrDefault();
+                        stateComboDTO.stateComboResponse = stateResponse.ToList();
+
+                        responseModel.StatusCode = 200;
+                        responseModel.Message = "data get successfully!!";
+                        responseModel.Data = stateComboDTO;
+                    }
+                }
+                catch (Exception ex)
+                {
+                    responseModel.StatusCode = 500;
+                    responseModel.Message = $"Error occurred during GetStateCombo: {ex.Message}";
+                }
+                return responseModel;
+            }
         }
     }
 }

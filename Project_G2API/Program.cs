@@ -47,14 +47,14 @@ app.MapPost("api/DeleteEmployee", async (IEmployeeService employeeService) =>
     return await employeeService.DeleteEmployee();
 }).WithTags("Employee");
 
-app.MapPost("api/GetCountryCombo", async (IEmployeeService employeeService) =>
+app.MapPost("api/GetCountryCombo", async (IEmployeeService employeeService, CountryComboRequest countryComboRequest) =>
 {
-    return await employeeService.GetCountryCombo();
+    return await employeeService.GetCountryCombo(countryComboRequest);
 }).WithTags("Employee");
 
-app.MapPost("api/GetStateCombo", async (IEmployeeService employeeService) =>
+app.MapPost("api/GetStateCombo", async (IEmployeeService employeeService, StateComboRequest stateComboRequest) =>
 {
-    return await employeeService.GetStateCombo();
+    return await employeeService.GetStateCombo(stateComboRequest);
 }).WithTags("Employee");
 
 app.MapPost("api/GetCityCombo", async (IEmployeeService employeeService, CityComboRequest cityComboRequest) =>
