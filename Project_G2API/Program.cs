@@ -1,3 +1,4 @@
+using Microsoft.Net.Http.Headers;
 using Project_G2.BuissnessAccessLayer.Services.IServices;
 using Project_G2.DomainLayer.Model.RequestModel;
 using Project_G2API.Helper;
@@ -8,7 +9,6 @@ DependencyInjectionConfig.ConfigureServices(builder.Services);
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddControllers();
-
 var app = builder.Build();
 
 if (app.Environment.IsDevelopment())
@@ -19,12 +19,18 @@ if (app.Environment.IsDevelopment())
         options.DefaultModelsExpandDepth(-1);
     });
 }
-
+app.UseCors(policy =>
+{
+    policy.AllowAnyOrigin()
+    .AllowAnyMethod()
+    .AllowAnyHeader()
+    .WithHeaders(HeaderNames.ContentType);
+});
 app.UseHttpsRedirection();
 app.MapControllers();
 
 
-#region apis
+#region apis 
 
 
 app.MapPost("api/AddEmployee", async (IEmployeeService employeeService, AddEmployeeRequest addEmployeeRequest) =>
@@ -32,7 +38,7 @@ app.MapPost("api/AddEmployee", async (IEmployeeService employeeService, AddEmplo
     return await employeeService.AddEmployee(addEmployeeRequest);
 }).WithTags("Employee");
 
-app.MapPost("api/GetEmployee", async (IEmployeeService employeeService) =>
+app.MapGet("api/GetEmployee", async (IEmployeeService employeeService) =>
 {
     return await employeeService.GetEmployee();
 }).WithTags("Employee");
@@ -45,6 +51,11 @@ app.MapPost("api/UpdateEmployee", async (IEmployeeService employeeService) =>
 app.MapPost("api/DeleteEmployee", async (IEmployeeService employeeService) =>
 {
     return await employeeService.DeleteEmployee();
+}).WithTags("Employee");
+
+app.MapPost("api/GetDepartmentCombo", async (IEmployeeService employeeService, DepartmentComboRequest departmentComboRequest) =>
+{
+    return await employeeService.GetDepartmentCombo(departmentComboRequest);
 }).WithTags("Employee");
 
 app.MapPost("api/GetCountryCombo", async (IEmployeeService employeeService, CountryComboRequest countryComboRequest) =>
@@ -64,6 +75,73 @@ app.MapPost("api/GetCityCombo", async (IEmployeeService employeeService, CityCom
 
 
 #endregion
+
+
+#region group apis 
+
+app.MapPost("api/AddGroup", async (IGroupService groupService, AddGroupRequest addGroupRequest) =>
+{
+    return await groupService.AddGroup(addGroupRequest);
+}).WithTags("Group");
+
+app.MapGet("api/GetGroup", async (IGroupService groupService) =>
+{
+    return await groupService.GetGroup();
+}).WithTags("Group");
+
+app.MapPost("api/GetGroupById", async (IGroupService groupService, GetGroupRequest getGroupRequest) =>
+{
+    return await groupService.GetGroupById(getGroupRequest);
+}).WithTags("Group");
+
+app.MapPut("api/UpdateGroup", async (IGroupService groupService, UpdateGroupRequest updateGroupRequest) =>
+{
+    return await groupService.UpdateGroup(updateGroupRequest);
+}).WithTags("Group");
+
+app.MapPost("api/DeleteGroup", async (IGroupService groupService, DeleteGroupRequest deleteGroupRequest) =>
+{
+    return await groupService.DeleteGroup(deleteGroupRequest);
+}).WithTags("Group");
+
+app.MapPost("api/GetGroupCombo", async (IGroupService groupService) =>
+{
+    return await groupService.GetGroupCombo();
+}).WithTags("Group");
+
+
+
+#endregion
+
+
+
+
+
+
+app.MapPost("api/CreateEmployee", async (IEmployeeService employeeService, CreateEmployeeRequest createEmployeeRequest) =>
+{
+    return await employeeService.CreateEmployee(createEmployeeRequest);
+}).WithTags("Employee");
+
+app.MapGet("api/ReadEmployee", async (IEmployeeService employeeService) =>
+{
+    return await employeeService.ReadEmployee();
+}).WithTags("Employee");
+
+app.MapPost("api/ReadEmployeeById", async (IEmployeeService employeeService, ReadEmployeeRequest readEmployeeRequest) =>
+{
+    return await employeeService.ReadEmployeeById(readEmployeeRequest);
+}).WithTags("Employee");
+
+app.MapGet("api/DepartmentCombo", async (IEmployeeService employeeService) =>
+{
+    return await employeeService.DepartmentCombo();
+}).WithTags("Employee");
+
+app.MapGet("api/EditEmployee", async (IEmployeeService employeeService, EditEmployeeRequest editEmployeeRequest) =>
+{
+    return await employeeService.EditEmployee(editEmployeeRequest);
+}).WithTags("Employee");
 
 
 app.Run();

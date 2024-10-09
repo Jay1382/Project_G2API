@@ -13,6 +13,8 @@ namespace Project_G2API.Helper
             services.AddTransient<DapperDBContext>();
             services.AddSingleton<IEmployeeService, EmployeeService>();
             services.AddSingleton<IEmployeeRepository, EmployeeRepository>();
+            services.AddSingleton<IGroupService, GroupService>();
+            services.AddSingleton<IGroupRepository, GroupRepository>();
         }
     }
 }

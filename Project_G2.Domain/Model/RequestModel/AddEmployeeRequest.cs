@@ -11,7 +11,7 @@ namespace Project_G2API.Model.RequestModel
         public int? DepartmentID { get; set; }
         public DateTime DateOfBirth { get; set; }
         public string? MobileNo { get; set; }
-        public int? Gender { get; set; }
+        public string? Gender { get; set; }
         public string? Address { get; set; }
         public int? CountryID { get; set; }
         public int? StateID { get; set; }

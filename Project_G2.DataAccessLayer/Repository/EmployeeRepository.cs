@@ -193,5 +193,146 @@ namespace Project_G2.DataAccessLayer.Repository
                 return responseModel;
             }
         }
+
+        public async Task<ResponseModel> GetDepartmentCombo(DepartmentComboRequest departmentComboRequest)
+        {
+            using (var connection = _context.CreateConnection())
+            {
+                ResponseModel responseModel = new ResponseModel();
+                try
+                {
+                    DynamicParameters parameter = new DynamicParameters();
+                    parameter.Add("@label", departmentComboRequest.label);
+                    parameter.Add("@page_size", departmentComboRequest.PageSize);
+                    parameter.Add("@current_page", departmentComboRequest.CurrentPage);
+                    var result = await connection.QueryMultipleAsync("department_combo_get", parameter, commandType: CommandType.StoredProcedure);
+                    var paginationResponse = result.Read<PaginationResponse>();
+                    var departmentResponse = result.Read<DepartmentComboResponse>();
+                    if (departmentResponse.FirstOrDefault() != null)
+                    {
+                        DepartmentComboDTO departmentComboDTO = new DepartmentComboDTO();
+                        departmentComboDTO.paginationResponse = paginationResponse.FirstOrDefault();
+                        departmentComboDTO.departmentComboResponse = departmentResponse.ToList();
+
+                        responseModel.StatusCode = 200;
+                        responseModel.Message = "data get successfully!!";
+                        responseModel.Data = departmentComboDTO;
+                    }
+                }
+                catch (Exception ex)
+                {
+                    responseModel.StatusCode = 500;
+                    responseModel.Message = $"Error occurred during GetDepartmentCombo: {ex.Message}";
+                }
+                return responseModel;
+            }
+        }
+
+        public async Task<ResponseModel> CreateEmployee(CreateEmployeeRequest createEmployeeRequest)
+        {
+            using (var connection = _context.CreateConnection())
+            {
+                ResponseModel responseModel = new ResponseModel();
+                try
+                {
+                    DynamicParameters parameter = new DynamicParameters();
+                    parameter.Add("@FirstName", createEmployeeRequest.FirstName);
+                    parameter.Add("@LastName", createEmployeeRequest.LastName);
+                    parameter.Add("@DepartmentId", createEmployeeRequest.DepartmentId);
+                    var result = await connection.QueryAsync<int>("employee_create", parameter, commandType: CommandType.StoredProcedure);
+                    if (result.Count() > 0)
+                    {
+                        responseModel.StatusCode = 200;
+                        responseModel.Message = "Employee added successfully!!";
+                        responseModel.Data = result;
+                    }
+                }
+                catch (Exception ex)
+                {
+                    responseModel.StatusCode = 500;
+                    responseModel.Message = $"Error occurred during CreateEmployee: {ex.Message}";
+                }
+                return responseModel;
+            }
+        }
+
+        public async Task<ResponseModel> ReadEmployee()
+        {
+            using (var connection = _context.CreateConnection())
+            {
+                ResponseModel responseModel = new ResponseModel();
+                try
+                {
+                    var result = await connection.QueryAsync<ReadEmployeeResponse>("employee_read", commandType: CommandType.StoredProcedure);
+                    if (result.Count() > 0)
+                    {
+                        responseModel.StatusCode = 200;
+                        responseModel.Message = "Get Employee successfully!!";
+                        responseModel.Data = result;
+                    }
+                }
+                catch (Exception ex)
+                {
+                    responseModel.StatusCode = 500;
+                    responseModel.Message = $"Error occurred during GetEmployee: {ex.Message}";
+                }
+                return responseModel;
+            }
+        }
+
+        public async Task<ResponseModel> ReadEmployeeById(ReadEmployeeRequest readEmployeeRequest)
+        {
+            using (var connection = _context.CreateConnection())
+            {
+                ResponseModel responseModel = new ResponseModel();
+                try
+                {
+                    DynamicParameters parameter = new DynamicParameters();
+                    parameter.Add("@Id", readEmployeeRequest.Id);
+                    var result = await connection.QueryAsync<ReadEmployeeResponse>("employee_read_id", parameter, commandType: CommandType.StoredProcedure);
+                    if (result.Count() > 0)
+                    {
+                        responseModel.StatusCode = 200;
+                        responseModel.Message = "Get Employee successfully!!";
+                        responseModel.Data = result;
+                    }
+                }
+                catch (Exception ex)
+                {
+                    responseModel.StatusCode = 500;
+                    responseModel.Message = $"Error occurred during ReadEmployeeById: {ex.Message}";
+                }
+                return responseModel;
+            }
+        }
+
+        public async Task<ResponseModel> DepartmentCombo()
+        {
+            using (var connection = _context.CreateConnection())
+            {
+                ResponseModel responseModel = new ResponseModel();
+                try
+                {
+                    var result = await connection.QueryAsync<DepartmentComboRes>("department_combo", commandType: CommandType.StoredProcedure);
+                    if (result.Count() > 0)
+                    {
+                        responseModel.StatusCode = 200;
+                        responseModel.Message = "Get Employee successfully!!";
+                        responseModel.Data = result;
+                    }
+                }
+                catch (Exception ex)
+                {
+                    responseModel.StatusCode = 500;
+                    responseModel.Message = $"Error occurred during ReadEmployeeById: {ex.Message}";
+                }
+                return responseModel;
+            }
+        }
+
+        public Task<ResponseModel> EditEmployee(EditEmployeeRequest editEmployeeRequest)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

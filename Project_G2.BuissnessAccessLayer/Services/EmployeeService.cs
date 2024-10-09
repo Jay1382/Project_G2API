@@ -19,24 +19,24 @@ namespace Project_G2.BuissnessAccessLayer.Services
             _employeeRepository = employeeRepository;
         }
 
-        public Task<ResponseModel> AddEmployee(AddEmployeeRequest addEmployeeRequest)
+        public async Task<ResponseModel> AddEmployee(AddEmployeeRequest addEmployeeRequest)
         {
-            return _employeeRepository.AddEmployee(addEmployeeRequest);
+            return await _employeeRepository.AddEmployee(addEmployeeRequest);
         }
 
-        public Task<ResponseModel> GetEmployee()
+        public async Task<ResponseModel> GetEmployee()
         {
-            return _employeeRepository.GetEmployee();
+            return await _employeeRepository.GetEmployee();
         }
 
-        public Task<ResponseModel> UpdateEmployee()
+        public async Task<ResponseModel> UpdateEmployee()
         {
-            return _employeeRepository.UpdateEmployee();
+            return await _employeeRepository.UpdateEmployee();
         }
 
-        public Task<ResponseModel> DeleteEmployee()
+        public async Task<ResponseModel> DeleteEmployee()
         {
-            return _employeeRepository.DeleteEmployee();
+            return await _employeeRepository.DeleteEmployee();
         }
 
         public async Task<ResponseModel> GetCityCombo(CityComboRequest cityComboRequest)
@@ -52,6 +52,36 @@ namespace Project_G2.BuissnessAccessLayer.Services
         public async Task<ResponseModel> GetStateCombo(StateComboRequest stateComboRequest)
         {
             return await _employeeRepository.GetStateCombo(stateComboRequest);
+        }
+
+        public async Task<ResponseModel> GetDepartmentCombo(DepartmentComboRequest departmentComboRequest)
+        {
+            return await _employeeRepository.GetDepartmentCombo(departmentComboRequest);
+        }
+
+        public async Task<ResponseModel> CreateEmployee(CreateEmployeeRequest createEmployeeRequest)
+        {
+            return await _employeeRepository.CreateEmployee(createEmployeeRequest);
+        }
+
+        public async Task<ResponseModel> ReadEmployee()
+        {
+            return await _employeeRepository.ReadEmployee();
+        }
+
+        public async Task<ResponseModel> ReadEmployeeById(ReadEmployeeRequest readEmployeeRequest)
+        {
+            return await _employeeRepository.ReadEmployeeById(readEmployeeRequest);
+        }
+
+        public async Task<ResponseModel> DepartmentCombo()
+        {
+            return await _employeeRepository.DepartmentCombo();
+        }
+
+        public async Task<ResponseModel> EditEmployee(EditEmployeeRequest editEmployeeRequest)
+        {
+            return await _employeeRepository.EditEmployee(editEmployeeRequest);
         }
     }
 }
