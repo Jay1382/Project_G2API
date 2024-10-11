@@ -83,5 +83,15 @@ namespace Project_G2.BuissnessAccessLayer.Services
         {
             return await _employeeRepository.EditEmployee(editEmployeeRequest);
         }
+
+        public async Task<ResponseModel> getDepartmentById(getDepartmentByIdRequest getDepartmentById)
+        {
+            return await _employeeRepository.getDepartmentById(getDepartmentById);
+        }
+
+        public async Task<ResponseModel> RemoveEmployee(DeleteEmployeeRequest deleteEmployeeRequest)
+        {
+            return await _employeeRepository.RemoveEmployee(deleteEmployeeRequest);
+        }
     }
 }

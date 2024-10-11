@@ -25,6 +25,8 @@ namespace Project_G2.BuissnessAccessLayer.Services.IServices
         Task<ResponseModel> ReadEmployeeById(ReadEmployeeRequest readEmployeeRequest);
         Task<ResponseModel> DepartmentCombo();
         Task<ResponseModel> EditEmployee(EditEmployeeRequest editEmployeeRequest);
+        Task<ResponseModel> getDepartmentById(getDepartmentByIdRequest getDepartmentById);
+        Task<ResponseModel> RemoveEmployee(DeleteEmployeeRequest deleteEmployeeRequest);
 
     }
 }

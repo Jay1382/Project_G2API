@@ -138,9 +138,19 @@ app.MapGet("api/DepartmentCombo", async (IEmployeeService employeeService) =>
     return await employeeService.DepartmentCombo();
 }).WithTags("Employee");
 
-app.MapGet("api/EditEmployee", async (IEmployeeService employeeService, EditEmployeeRequest editEmployeeRequest) =>
+app.MapPost("api/getDepartmentById", async (IEmployeeService employeeService, getDepartmentByIdRequest getDepartmentById) =>
+{
+    return await employeeService.getDepartmentById(getDepartmentById);
+}).WithTags("Employee");
+
+app.MapPost("api/EditEmployee", async (IEmployeeService employeeService, EditEmployeeRequest editEmployeeRequest) =>
 {
     return await employeeService.EditEmployee(editEmployeeRequest);
+}).WithTags("Employee");
+
+app.MapPost("api/RemoveEmployee", async (IEmployeeService employeeService, DeleteEmployeeRequest deleteEmployeeRequest) =>
+{
+    return await employeeService.RemoveEmployee(deleteEmployeeRequest);
 }).WithTags("Employee");
 
 

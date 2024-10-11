@@ -6,11 +6,8 @@ using System.Threading.Tasks;
 
 namespace Project_G2.DomainLayer.Model.RequestModel
 {
-    public class EditEmployeeRequest
+    public class getDepartmentByIdRequest
     {
         public int Id { get; set; }
-        public string? FirstName { get; set; }
-        public string? LastName { get; set; }
-        public int? DepartmentId { get; set; }
     }
 }

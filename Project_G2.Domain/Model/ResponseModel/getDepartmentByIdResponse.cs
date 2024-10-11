@@ -6,12 +6,9 @@ using System.Threading.Tasks;
 
 namespace Project_G2.DomainLayer.Model.ResponseModel
 {
-    public class ReadEmployeeResponse
+    public class getDepartmentByIdResponse
     {
-        public int Id { get; set; }
-        public string? FirstName { get; set; }
-        public string? LastName { get; set; }
+        public int? Id { get; set; }
         public string? DepartmentName { get; set; }
-        public string? DepartmentId { get; set; }
     }
 }

@@ -330,9 +330,85 @@ namespace Project_G2.DataAccessLayer.Repository
             }
         }
 
-        public Task<ResponseModel> EditEmployee(EditEmployeeRequest editEmployeeRequest)
+        public async Task<ResponseModel> EditEmployee(EditEmployeeRequest editEmployeeRequest)
         {
-            throw new NotImplementedException();
+            using (var connection = _context.CreateConnection())
+            {
+                ResponseModel responseModel = new ResponseModel();
+                try
+                {
+                    DynamicParameters parameter = new DynamicParameters();
+                    parameter.Add("@Id", editEmployeeRequest.Id);
+                    parameter.Add("@FirstName", editEmployeeRequest.FirstName);
+                    parameter.Add("@LastName", editEmployeeRequest.LastName);
+                    parameter.Add("@DepartmentId", editEmployeeRequest.DepartmentId);
+                    var result = await connection.QueryAsync<getDepartmentByIdResponse>("employee_update", parameter, commandType: CommandType.StoredProcedure);
+                    if (result.Count() > 0)
+                    {
+                        responseModel.StatusCode = 200;
+                        responseModel.Message = "Employee edited successfully!!";
+                        responseModel.Data = result;
+                    }
+                }
+                catch (Exception ex)
+                {
+                    responseModel.StatusCode = 500;
+                    responseModel.Message = $"Error occurred during EditEmployee: {ex.Message}";
+                }
+                return responseModel;
+            }
+        }
+
+        public async Task<ResponseModel> getDepartmentById(getDepartmentByIdRequest getDepartmentById)
+        {
+            using (var connection = _context.CreateConnection())
+            {
+                ResponseModel responseModel = new ResponseModel();
+                try
+                {
+                    DynamicParameters parameter = new DynamicParameters();
+                    parameter.Add("@Id", getDepartmentById.Id);
+                    var result = await connection.QueryAsync<getDepartmentByIdResponse>("department_get_id", parameter, commandType: CommandType.StoredProcedure);
+                    if (result.Count() > 0)
+                    {
+                        responseModel.StatusCode = 200;
+                        responseModel.Message = "Employee added successfully!!";
+                        responseModel.Data = result;
+                    }
+                }
+                catch (Exception ex)
+                {
+                    responseModel.StatusCode = 500;
+                    responseModel.Message = $"Error occurred during CreateEmployee: {ex.Message}";
+                }
+                return responseModel;
+            }
+        }
+
+        public async Task<ResponseModel> RemoveEmployee(DeleteEmployeeRequest deleteEmployeeRequest)
+        {
+            using (var connection = _context.CreateConnection())
+            {
+                ResponseModel responseModel = new ResponseModel();
+                try
+                {
+                    DynamicParameters parameter = new DynamicParameters();
+                    parameter.Add("@Id", deleteEmployeeRequest.Id);
+                    var result = await connection.QueryAsync<int>("employee_delete", parameter, commandType: CommandType.StoredProcedure);
+                    if (result.Count() > 0)
+                    {
+                        responseModel.StatusCode = 200;
+                        responseModel.Message = "Employee deleted successfully!!";
+                        responseModel.Data = result;
+                    }
+                }
+                catch (Exception ex)
+                {
+                    responseModel.StatusCode = 500;
+                    responseModel.Message = $"Error occurred during RemoveEmployee: {ex.Message}";
+                }
+                return responseModel;
+            }
         }
     }
 }

@@ -20,5 +20,7 @@ namespace Project_G2.DataAccessLayer.Repository.IRepository
         Task<ResponseModel> ReadEmployeeById(ReadEmployeeRequest readEmployeeRequest);
         Task<ResponseModel> DepartmentCombo();
         Task<ResponseModel> EditEmployee(EditEmployeeRequest editEmployeeRequest);
+        Task<ResponseModel> getDepartmentById(getDepartmentByIdRequest getDepartmentById);
+        Task<ResponseModel> RemoveEmployee(DeleteEmployeeRequest deleteEmployeeRequest);
     }
 }

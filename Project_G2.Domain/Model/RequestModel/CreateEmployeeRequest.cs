@@ -10,6 +10,6 @@ namespace Project_G2.DomainLayer.Model.RequestModel
     {
         public string? FirstName { get; set; }
         public string? LastName { get; set; }
-        public string? DepartmentId { get; set; }
+        public int? DepartmentId { get; set; }
     }
 }
